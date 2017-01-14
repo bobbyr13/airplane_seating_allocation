@@ -85,11 +85,4 @@ def ASSIGN(db,bookname,booksize):
     
     # Print confirmation that booking has been made
     print('Booking Confirmed')    
-    
-
-
-conn = sqlite3.connect('airline_seating.db')
-c = conn.cursor()
-c.execute('SELECT * FROM seating')
-d = c.execute("SELECT * FROM seating WHERE row = %d AND seat = '%s'" %(a+1,letters[b])).fetchall()
-c.execute("UPDATE seating SET name = '%s' WHERE row = %d AND seat = '%s'" %('',a+1,letters[b]))
+   
