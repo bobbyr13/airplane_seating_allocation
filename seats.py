@@ -64,7 +64,17 @@ def readCSV(CSV_file = "bookings.csv"): #Read and return CSV file and number of 
     return booking_number, booking_name, booking_size
 
 
-def ASSIGN(db,bookname,booksize):
+# New ASSIGN function which allows the user to specify the separation metric
+# interpretation they would prefer. The metric calculations included are:
+#       Separated (default):  Number of group splits.
+#       Alone:  Number of party members seated alone.
+#       Dissatisfaction:  0 if all party members are seated together.
+#                         1 if party members are separated but no individuals
+#                             are sat alone.
+#                         3 if one or more party members are sat alone.
+
+
+def ASSIGN_metrics(db,bookname,booksize,sep = 'Separations'):
     # Connect to database and retrieve plane dimensions
     conn = sqlite3.connect(db)
     c = conn.cursor()
@@ -106,14 +116,7 @@ def ASSIGN(db,bookname,booksize):
                     if plane[i,j] == '':
                         plane[i,j:j+remain] = bookname
                         for k in range(remain):
-                            ##### ##### ##### ##### #####
-                            
                             c.execute("UPDATE seating SET name = ? WHERE row = ? AND seat = ?;", (bookname,i+1,letters[j+k],))
-                            # Line is considered too time consuming for SQLite to handle. Returns error message:
-                            #      OperationalError: database is locked
-                            # Needs to be fixed for function to run properly.
-                            
-                            ##### ##### ##### ##### #####
                             conn.commit()
                         break
                 break 
@@ -135,18 +138,50 @@ def ASSIGN(db,bookname,booksize):
             if plane[i,j] == bookname:
                 position.append(i)
     
-    # Define separation metric to be the number of group splits. Update the
-    # database with new metric value
-    separations = len(set(position)) - 1
-    c.execute("UPDATE metrics SET passengers_separated = ?;", (separated+separations,))
-    conn.commit()
+    if sep == 'Alone':
+        # Separation metric defined to be the number of party members seated alone.
+        alone = 0
+        for i in range(len(position)):
+            if position.count(position[i]) == 1:
+                alone = alone + 1
+        if booksize > 1:
+            c.execute("UPDATE metrics SET passengers_separated = ?;", (separated+alone,))
+            conn.commit()
+    
+    elif sep == 'Dissatisfaction':        
+        # Separation metric for a given booking defined to be:
+        # 0 if all party members are seated together.
+        # 1 if party members are separated but no individuals are sat alone.
+        # 3 if one or more party members are sat alone.
+        alone = 0
+        for i in range(len(position)):
+            if position.count(position[i]) == 1:
+                alone = alone + 1
+        separations = len(set(position)) - 1
+        if booksize > 1:
+            if separations == 0:
+                c.execute("UPDATE metrics SET passengers_separated = ?;", (separated+0,))
+                conn.commit()
+            elif separations > 0 and alone == 0:
+                c.execute("UPDATE metrics SET passengers_separated = ?;", (separated+1,))
+                conn.commit()
+            else:
+                c.execute("UPDATE metrics SET passengers_separated = ?;", (separated+3,))
+                conn.commit()                    
+    
+    else:
+        # Separation metric defined to be the number of group splits.
+        separations = len(set(position)) - 1
+        c.execute("UPDATE metrics SET passengers_separated = ?;", (separated+separations,))
+        conn.commit()       
+    
     conn.close()
     
     # Remove 'plane' array from storage
-    # del plane
+    del plane
     
     # Print confirmation that booking has been made
-    print('Booking Confirmed',plane)    
+    print('Booking Confirmed')    
 
 
 #Main function now follows
@@ -190,5 +225,5 @@ for i in range(booking_number):
 
     else:
         print("Booking size okay - seat", (int(booking_size[i])))
-        ASSIGN(DB_file, booking_name[i], int(booking_size[i]))
+        ASSIGN_metrics(DB_file, booking_name[i], int(booking_size[i]))
         free_seats = free_seats - int(booking_size[i])
