@@ -18,3 +18,12 @@ Errors/Unforseen outcomes:
 Entering 9 as group size resulted in 3 rows of 4 for some reason
 Database kept locking
 Initial plan was to use array - might get to work with lists
+
+
+To Do
+-------------------------------------------------
+Create list based modification
+Create a test list
+Correct spacing assumption
+Create a list of optional additions/parameters
+Annotate all functions that are not obvious
