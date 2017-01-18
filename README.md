@@ -9,7 +9,8 @@ Sperated metric is how many times we split the group,
 Aisles are irrelevant,
 Rectangular seating plan - will only be two variables (rows and seat plan), 
 Assign algorithm assumes that the existing seat bookings don't have spaces in between them in a given row.
-Database file seat letter are ordered alphabetically - seat row is not important.
+Database file seat letter are ordered alphabetically - seat row is not important. 
+Priority is given based on the order of bookings in CSV file, regardless of if this results in empty seats.
 
 Questions:
 Will there be names in the database before starting?
