@@ -6,7 +6,7 @@ ARI Programming Assignment - Airline Seating
 
 Assumptions:
 -------------------------------------------------
-Sperated metric (by default) is how many times we split the group, but can be alterted
+Passengers seperated metric (by default) is how many times we split the group, but this can be alterted
 
 Aisles are irrelevant
 
