@@ -5,22 +5,18 @@ import numpy as np
 DB_file = "airline_seating.db" #Filename for DB as default
 CSV_file = "bookings.csv" #Filename for CSV as default
 
-def count(A,i):
-    m = shape(A)[1]
+def count_list(A,i):
     c = 0
-    for j in range(m):
-        if A[i,j] == '':
+    for j in range(len(rowcol[1])):
+        if A[j*rowcol[0]+i] == '':
             c = c+1
     return(c)
-
-def count_str(A,str):
-    n = shape(A)[0]
-    m = shape(A)[1]
+    
+def count_str_list(A,str):
     c = 0
-    for j in range(m):
-        for i in range(n):
-            if A[i,j] == str:
-                c = c+1
+    for i in range(len(A)):
+        if A[i] == str:
+            c = c+1
     return(c)
 
 def readDB(DB_file = "airline_seating.db"): #Read and return seat layout. Return number of unoccupied seats
