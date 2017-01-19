@@ -6,44 +6,39 @@ ARI Programming Assignment - Airline Seating
 
 Assumptions:
 -------------------------------------------------
-Sperated metric is how many times we split the group,
+Sperated metric (by default) is how many times we split the group, but can be alterted
 
-Aisles are irrelevant,
+Aisles are irrelevant
 
-Rectangular seating plan - will only be two variables (rows and seat plan), 
+Rectangular seating plan - will only be two variables (rows and seat plan) 
 
-Assign algorithm assumes that the existing seat bookings don't have spaces in between them in a given row.
+Assign algorithm assumes that the existing seat bookings don't have spaces in between them in a given row
 
-Database file seat letter are ordered alphabetically - seat row is not important. 
+Database file seat letter are ordered alphabetically - seat row is not important
 
-Priority is given based on the order of bookings in CSV file, regardless of if this results in empty seats.
+Priority is given based on the order of bookings in CSV file, regardless of whether this results in empty seats
 
 
 
-Questions:
+Errors/Unforseen Outcomes:
 -------------------------------------------------
+Entering 9 as group size resulted in 3 rows of 4 for some reason  -  corrected
 
-Will there be names in the database before starting?
+Database kept locking  -  corrected
 
-Errors/Unforseen outcomes:
-
-Entering 9 as group size resulted in 3 rows of 4 for some reason
-
-Database kept locking
-
-Initial plan was to use array - might get to work with lists
+Initial plan was to use array - now modified to work with lists  -  corrected
 
 
 
 
-To Do
+To Do:
 -------------------------------------------------
-Create list based modification.
+Create list based modification  -  done
 
-Create a test list.
+Create a list of test cases
 
-Correct spacing assumption.
+Correct spacing assumption
 
-Create a list of optional additions/parameters.
+Create a list of optional additions/parameters  -  choice of metric interpretation added
 
-Annotate all functions that are not obvious.
+Annotate all functions that are not obvious
