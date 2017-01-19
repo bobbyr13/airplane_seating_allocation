@@ -5,26 +5,44 @@ ARI Programming Assignment - Airline Seating
 
 
 Assumptions:
+
 Sperated metric is how many times we split the group,
+
 Aisles are irrelevant,
+
 Rectangular seating plan - will only be two variables (rows and seat plan), 
+
 Assign algorithm assumes that the existing seat bookings don't have spaces in between them in a given row.
+
 Database file seat letter are ordered alphabetically - seat row is not important. 
+
 Priority is given based on the order of bookings in CSV file, regardless of if this results in empty seats.
 
+
+
 Questions:
+
 Will there be names in the database before starting?
 
 Errors/Unforseen outcomes:
+
 Entering 9 as group size resulted in 3 rows of 4 for some reason
+
 Database kept locking
+
 Initial plan was to use array - might get to work with lists
+
+
 
 
 To Do
 -------------------------------------------------
-Create list based modification
-Create a test list
-Correct spacing assumption
-Create a list of optional additions/parameters
-Annotate all functions that are not obvious
+Create list based modification.
+
+Create a test list.
+
+Correct spacing assumption.
+
+Create a list of optional additions/parameters.
+
+Annotate all functions that are not obvious.
