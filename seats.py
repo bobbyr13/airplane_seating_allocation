@@ -1,6 +1,6 @@
 import sqlite3
 import csv
-import numpy as np
+
 
 DB_file = "airline_seating.db" #Filename for DB as default
 CSV_file = "bookings.csv" #Filename for CSV as default
@@ -8,7 +8,7 @@ CSV_file = "bookings.csv" #Filename for CSV as default
 def count_list(A,rowlen,i):
     c = 0
     for j in range(rowlen):
-        if A[j*(len(A)/rowlen)+i] == '':
+        if A[int(j*(len(A)/rowlen)+i)] == '':
             c = c+1
     return(c)
     
