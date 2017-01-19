@@ -5,10 +5,10 @@ import numpy as np
 DB_file = "airline_seating.db" #Filename for DB as default
 CSV_file = "bookings.csv" #Filename for CSV as default
 
-def count_list(A,i):
+def count_list(A,rowlen,i):
     c = 0
-    for j in range(len(rowcol[1])):
-        if A[j*rowcol[0]+i] == '':
+    for j in range(rowlen):
+        if A[j*(len(A)/rowlen)+i] == '':
             c = c+1
     return(c)
     
@@ -105,7 +105,7 @@ def ASSIGN_metrics_list(db,bookname,booksize,sep = 'Separations'):
     while count_str_list(plane,bookname) < booksize:
         current = count_str_list(plane,bookname)
         for i in range(rowcol[0]):
-            if count_list(plane,i) >= remain:
+            if count_list(plane,len(letters),i) >= remain:
                 for j in range(len(rowcol[1])):
                     if plane[j*rowcol[0]+i] == '':
                         for k in range(remain):
@@ -221,3 +221,4 @@ for i in range(booking_number):
         print("Booking size okay - seat", (int(booking_size[i])))
         ASSIGN_metrics_list(DB_file, booking_name[i], int(booking_size[i]))
         free_seats = free_seats - int(booking_size[i])
+
