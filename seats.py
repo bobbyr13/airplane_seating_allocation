@@ -74,33 +74,31 @@ def readCSV(CSV_file = "bookings.csv"): #Read and return CSV file and number of 
 #                         3 if one or more party members are sat alone.
 
 
-def ASSIGN_metrics(db,bookname,booksize,sep = 'Separations'):
+def ASSIGN_metrics_list(db,bookname,booksize,sep = 'Separations'):
     # Connect to database and retrieve plane dimensions
     conn = sqlite3.connect(db)
     c = conn.cursor()
     rowcol = c.execute("SELECT * FROM rows_cols").fetchone()
     letters = str(rowcol[1])
     
-    # Generate blank numpy array called plane that matches configuration
-    plane = empty([rowcol[0],len(rowcol[1])],dtype='S50')
-    for i in range(rowcol[0]):
-        for j in range(len(rowcol[1])):
-            plane[i,j] = ''
-    
     # Retrieve bookings currently in the database and assign them to the 
-    # corresponding seats in the array 'plane'
+    # corresponding seats in the list 'plane'
+    plane = []
     occupied = c.execute("SELECT * FROM seating WHERE name != '%s'" %'').fetchall()
     r = []
     s = []
     for i in range(len(occupied)):
         r.append(occupied[i][0])
         s.append(occupied[i][1])
-    for k in range(len(r)):
+    for j in range(len(rowcol[1])):
         for i in range(rowcol[0]):
-            for j in range(len(rowcol[1])):
+            x = len(plane)
+            for k in range(len(r)):
                 if str(i+1) == str(r[k]) and letters[j] == str(s[k]):
-                    plane[i,j] = str(occupied[k][2])
-    
+                    plane.append(str(occupied[k][2]))
+            if len(plane) == x:
+                plane.append('')
+        
     # Main assign step for new booking. System operates by trying to fit the
     # largest possible group together in one row, each time scanning rows from
     # front to back. Functions 'count' and 'count_str' are already uploaded in
@@ -108,19 +106,19 @@ def ASSIGN_metrics(db,bookname,booksize,sep = 'Separations'):
     # then allocated in a left-to-right manner with no gaps within a given row.
     remain = booksize
     dummy = 0
-    while count_str(plane,bookname) < booksize:
-        current = count_str(plane,bookname)
+    while count_str_list(plane,bookname) < booksize:
+        current = count_str_list(plane,bookname)
         for i in range(rowcol[0]):
-            if count(plane,i) >= remain:
+            if count_list(plane,i) >= remain:
                 for j in range(len(rowcol[1])):
-                    if plane[i,j] == '':
-                        plane[i,j:j+remain] = bookname
+                    if plane[j*rowcol[0]+i] == '':
                         for k in range(remain):
+                            plane[(j+k)*rowcol[0]+i] = bookname
                             c.execute("UPDATE seating SET name = ? WHERE row = ? AND seat = ?;", (bookname,i+1,letters[j+k],))
                             conn.commit()
                         break
                 break 
-        if count_str(plane,bookname) > current:
+        if count_str_list(plane,bookname) > current:
             remain = dummy
             dummy = 0
         else:
@@ -135,7 +133,7 @@ def ASSIGN_metrics(db,bookname,booksize,sep = 'Separations'):
     position = []
     for i in range(rowcol[0]):
         for j in range(len(rowcol[1])):
-            if plane[i,j] == bookname:
+            if plane[j*rowcol[0]+i] == bookname:
                 position.append(i)
     
     if sep == 'Alone':
@@ -181,7 +179,7 @@ def ASSIGN_metrics(db,bookname,booksize,sep = 'Separations'):
     del plane
     
     # Print confirmation that booking has been made
-    print('Booking Confirmed')    
+    print('Booking Confirmed') 
 
 
 #Main function now follows
@@ -225,5 +223,5 @@ for i in range(booking_number):
 
     else:
         print("Booking size okay - seat", (int(booking_size[i])))
-        ASSIGN_metrics(DB_file, booking_name[i], int(booking_size[i]))
+        ASSIGN_metrics_list(DB_file, booking_name[i], int(booking_size[i]))
         free_seats = free_seats - int(booking_size[i])
