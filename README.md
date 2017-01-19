@@ -5,7 +5,7 @@ ARI Programming Assignment - Airline Seating
 
 
 Assumptions:
-
+-------------------------------------------------
 Sperated metric is how many times we split the group,
 
 Aisles are irrelevant,
@@ -21,6 +21,7 @@ Priority is given based on the order of bookings in CSV file, regardless of if t
 
 
 Questions:
+-------------------------------------------------
 
 Will there be names in the database before starting?
 
