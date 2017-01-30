@@ -8,7 +8,7 @@ Assumptions:
 -------------------------------------------------
 Passengers seperated metric (by default) is how many times we split the group, but this can be alterted
 
-Aisles are irrelevant
+Aisles are irrelevant and thus do not count as separating groups
 
 Rectangular seating plan - will only be two variables (rows and seat plan) 
 
@@ -17,6 +17,8 @@ Assign algorithm assumes that the existing seat bookings don't have spaces in be
 Database file seat letter are ordered alphabetically - seat row is not important
 
 Priority is given based on the order of bookings in CSV file, regardless of whether this results in empty seats
+
+No two bookings have the same associated booking name
 
 
 
