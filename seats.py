@@ -100,6 +100,11 @@ def ASSIGN_metrics_list(db,bookname,booksize,sep = 'Separations'):
     # front to back. Functions 'count' and 'count_str' are already uploaded in
     # local array method branch. Assigning step assumes all seats are booked and
     # then allocated in a left-to-right manner with no gaps within a given row.
+    
+    # Avoid issue of multiple bookings with same booking name
+    if count_str_list(plane,bookname) > 0:
+        bookname += '1'
+    
     remain = booksize
     dummy = 0
     while count_str_list(plane,bookname) < booksize:
