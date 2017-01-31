@@ -45,7 +45,7 @@ def main():
             free_seats -= int(booking_size[i])
 
 
-def count_list(plane_list, row_length, i):
+def count_list(plane_list, row_length, i):                                # Count number of free seats in row i of plane
     running_count = 0
 
     for j in range(row_length):
@@ -56,7 +56,7 @@ def count_list(plane_list, row_length, i):
     return running_count
 
 
-def count_str_list(plane_list, string):
+def count_str_list(plane_list, string):                                                    # Count names in entire plane
     running_count = 0
 
     for i in range(len(plane_list)):
