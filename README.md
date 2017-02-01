@@ -18,8 +18,6 @@ Database file seat letter are ordered alphabetically - seat row is not important
 
 Priority is given based on the order of bookings in CSV file, regardless of whether this results in empty seats
 
-No two bookings have the same associated booking name
-
 
 
 Errors/Unforseen Outcomes:
