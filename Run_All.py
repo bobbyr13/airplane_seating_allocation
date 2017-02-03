@@ -5,55 +5,6 @@ from pandas import read_csv
 from pandas import Series, DataFrame
 
 
-def run_all(DB_file = "airline_seating.db",CSV_file = "bookings.csv",sep = 'Separated',first=1,last=0):
-    nrows, seat_layout, free_seats = readDB(DB_file)
-    booking_number, booking_name, booking_size = readCSV(CSV_file)
-    
-    start = first - 1
-    if last == 0 or last == booking_number:
-        end = booking_number
-    else:
-        end = last
-    
-    X = pd.DataFrame.from_csv('bookings.csv', header= None, index_col = None)
-    X.columns = ['Name','Size']
-    status = ['']*booking_number
-    X['Status'] = status
-    
-    for i in range(start,end):
-        if free_seats == 0:
-            #increase db count passengers refused by booking_size        
-            conn = sqlite3.connect(DB_file)
-            c = conn.cursor()
-            passengers_refused = c.execute("SELECT * FROM metrics;").fetchone()[0]    
-            passengers_refused += int(booking_size[i])
-            c.execute("UPDATE metrics SET passengers_refused = ?;", (passengers_refused,))
-            conn.commit()
-            c.close()
-            conn.close()
-            X.set_value(i, 'Status', 'Refused - No Seats Left')
-            
-        elif int(booking_size[i]) > free_seats: #If we cannot accomodate the booking
-            #increase db count passengers refused by booking_size        
-            conn = sqlite3.connect(DB_file)
-            c = conn.cursor()
-            passengers_refused = c.execute("SELECT * FROM metrics;").fetchone()[0]    
-            passengers_refused += int(booking_size[i])
-            c.execute("UPDATE metrics SET passengers_refused = ?;", (passengers_refused,))
-            conn.commit()
-            c.close()
-            conn.close()
-            X.set_value(i, 'Status', 'Refused - Not Enough Seats Left')
-    
-        else:
-            ASSIGN_metrics_list(DB_file, booking_name[i], int(booking_size[i]), sep)
-            free_seats = free_seats - int(booking_size[i])
-            X.set_value(i, 'Status', 'Booking Confirmed')
-    
-    print(X)
-
-
-
 def count_list(plane_list, row_length, i):                                # Count number of free seats in row i of plane
     running_count = 0
 
@@ -165,8 +116,8 @@ def assign_metrics_list(db, booking_name, booking_size, sep='Separations'):
     # local array method branch. Assigning step assumes all seats are booked and
     # then allocated in a left-to-right manner with no gaps within a given row.
 
-    if count_str_list(plane,bookname) > 0:                          # Avoid issue of multiple bookings with same booking name
-        bookname += '1'
+    if count_str_list(plane,booking_name) > 0:                          # Avoid issue of multiple bookings with same booking name
+        booking_name += '1'
       
     remain = booking_size
     dummy = 0
@@ -261,6 +212,55 @@ def assign_metrics_list(db, booking_name, booking_size, sep='Separations'):
     del plane
 
 
+def run_all(DB_file = "airline_seating.db",CSV_file = "bookings.csv",sep = 'Separated',first=1,last=0):
+    nrows, seat_layout, free_seats = read_database(DB_file)
+    booking_number, booking_name, booking_size = read_csv(CSV_file)
+    
+    start = first - 1
+    if last == 0 or last == booking_number:
+        end = booking_number
+    else:
+        end = last
+    
+    X = pd.DataFrame.from_csv('bookings.csv', header= None, index_col = None)
+    X.columns = ['Name','Size']
+    status = ['']*booking_number
+    X['Status'] = status
+    
+    for i in range(start,end):
+        if free_seats == 0:
+            #increase db count passengers refused by booking_size        
+            conn = sqlite3.connect(DB_file)
+            c = conn.cursor()
+            passengers_refused = c.execute("SELECT * FROM metrics;").fetchone()[0]    
+            passengers_refused += int(booking_size[i])
+            c.execute("UPDATE metrics SET passengers_refused = ?;", (passengers_refused,))
+            conn.commit()
+            c.close()
+            conn.close()
+            X.set_value(i, 'Status', 'Refused - No Seats Left')
+            
+        elif int(booking_size[i]) > free_seats: #If we cannot accomodate the booking
+            #increase db count passengers refused by booking_size        
+            conn = sqlite3.connect(DB_file)
+            c = conn.cursor()
+            passengers_refused = c.execute("SELECT * FROM metrics;").fetchone()[0]    
+            passengers_refused += int(booking_size[i])
+            c.execute("UPDATE metrics SET passengers_refused = ?;", (passengers_refused,))
+            conn.commit()
+            c.close()
+            conn.close()
+            X.set_value(i, 'Status', 'Refused - Not Enough Seats Left')
+    
+        else:
+            assign_metrics_list(DB_file, booking_name[i], int(booking_size[i]), sep)
+            free_seats = free_seats - int(booking_size[i])
+            X.set_value(i, 'Status', 'Booking Confirmed')
+    
+    print(X)
+
 
 run_all()
+
+
 
