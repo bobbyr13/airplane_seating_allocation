@@ -116,7 +116,7 @@ def assign_metrics_list(db, booking_name, booking_size, sep='Separations'):
     # local array method branch. Assigning step assumes all seats are booked and
     # then allocated in a left-to-right manner with no gaps within a given row.
 
-    if count_str_list(plane,booking_name) > 0:                          # Avoid issue of multiple bookings with same booking name
+    while count_str_list(plane,booking_name) > 0:                          # Avoid issue of multiple bookings with same booking name
         booking_name += ' (1)'
       
     remain = booking_size
