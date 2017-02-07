@@ -200,7 +200,19 @@ def assign_metrics_list(db, booking_name, booking_size, sep='Separations'):
             else:
                 c.execute("UPDATE metrics SET passengers_separated = ?;", (separated + 3,))
                 conn.commit()
+    
+    elif sep == 'Total':                            # Separation metric defined to be the size of a party that is split.
+        alone = 0
 
+        for i in range(len(position)):
+
+            if position.count(position[i]) == 1:
+                alone += 1
+
+        if booking_size > 1:
+            c.execute("UPDATE metrics SET passengers_separated = ?;", (separated + booking_size,))
+            conn.commit()
+           
     else:
                                                         # Separation metric defined to be the number of group splits.
         separations = len(set(position)) - 1
