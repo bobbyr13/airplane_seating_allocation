@@ -1,6 +1,8 @@
 # ARIProgramming
+MIS40750 Analytics Research & Implement
 ARI Programming Assignment - Airline Seating
 
+Note: Please see the included report for detailed documentation.
 
 
 
@@ -35,10 +37,10 @@ To Do:
 -------------------------------------------------
 Create list based modification  -  done
 
-Create a list of test cases
+Create a list of test cases - done
 
-Correct spacing assumption
+Correct spacing assumption - done
 
 Create a list of optional additions/parameters  -  choice of metric interpretation added
 
-Annotate all functions that are not obvious
+Annotate all functions that are not obvious - done
