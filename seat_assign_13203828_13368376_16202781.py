@@ -74,6 +74,7 @@ def read_csv(csv_file="bookings.csv"):                                 # Read an
 # interpretation they would prefer. The metric calculations included are:
 #       Separated (default):  Number of group splits.
 #       Alone:  Number of party members seated alone.
+#       Total:  If group is split, number of members in group.
 #       Dissatisfaction:  0 if all party members are seated together.
 #                         1 if party members are separated but no individuals
 #                             are sat alone.
