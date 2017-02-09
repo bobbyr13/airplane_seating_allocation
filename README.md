@@ -40,7 +40,7 @@ Create list based modification  -  done
 
 Create a list of test cases - done
 
-Correct spacing assumption - done
+Correct spacing assumption - not done
 
 Create a list of optional additions/parameters  -  choice of metric interpretation added
 
