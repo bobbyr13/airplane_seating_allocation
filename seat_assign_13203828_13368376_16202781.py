@@ -1,3 +1,20 @@
+#######################################################################
+##                                                                   ##
+##                      MSc Business Analytics                       ##
+##                      ----------------------                       ##
+##                                                                   ##
+##                                                                   ##
+##   Module:        MIS40750 - Analytics Research & Implementation   ##
+##                                                                   ##
+##   Assignment:    Airline Seating Assignment                       ##
+##   Due Date:      24 February 2017                                 ##
+##                                                                   ##
+##   Authors:       Eoin Carroll    Bobby Reardon    Chris Taylor    ##
+##                    16202781        13203828         13368376      ##
+##                                                                   ##
+#######################################################################
+
+
 import sqlite3
 import csv
 import pandas as pd
