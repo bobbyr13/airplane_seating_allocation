@@ -291,7 +291,8 @@ def run_all(DB_file = "airline_seating.db",CSV_file = "bookings.csv",sep = 'Sepa
     print(X)
 
 
-run_all()
+if __name__ == "__main__":
+    run_all()
 
 
 
