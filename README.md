@@ -3,7 +3,7 @@ MIS40750 - Analytics Research & Implementation
 
 ARI Programming Assignment - Airline Seating
 
-**Note:** Please see the included report for detailed documentation.
+**_Note_: Please see the included report for detailed documentation.**
 
 
 
