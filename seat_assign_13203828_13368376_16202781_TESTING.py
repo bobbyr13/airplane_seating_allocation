@@ -1,3 +1,21 @@
+#######################################################################
+##                                                                   ##
+##                      MSc Business Analytics                       ##
+##                      ----------------------                       ##
+##                                                                   ##
+##                                                                   ##
+##   Module:        MIS40750 - Analytics Research & Implementation   ##
+##                                                                   ##
+##   Assignment:    Airline Seating Assignment                       ##
+##   Due Date:      24 February 2017                                 ##
+##   File Purpose:  Testing of Main Program Code                     ##
+##                                                                   ##
+##   Authors:       Eoin Carroll    Bobby Reardon    Chris Taylor    ##
+##                    16202781        13203828         13368376      ##
+##                                                                   ##
+#######################################################################
+
+
 import unittest
 import seats_refinedV1
 
