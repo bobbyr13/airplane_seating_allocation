@@ -8,6 +8,7 @@
 ##                                                                   ##
 ##   Assignment:    Airline Seating Assignment                       ##
 ##   Due Date:      24 February 2017                                 ##
+##   File Purpose:  Main Program Code                                ##
 ##                                                                   ##
 ##   Authors:       Eoin Carroll    Bobby Reardon    Chris Taylor    ##
 ##                    16202781        13203828         13368376      ##
