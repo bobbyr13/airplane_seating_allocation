@@ -1,47 +1,13 @@
-# ARIProgramming
-MIS40750 Analytics Research & Implement
+# ARI Programming
+MIS40750 - Analytics Research & Implementation
 
 ARI Programming Assignment - Airline Seating
 
-Note: Please see the included report for detailed documentation.
+**Note:** Please see the included report for detailed documentation.
 
 
 
-Assumptions:
--------------------------------------------------
-Passengers seperated metric (by default) is how many times we split the group, but this can be alterted
+Report Conclusion
+-------------------------------------
 
-Aisles are irrelevant and thus do not count as separating groups
-
-Rectangular seating plan - will only be two variables (rows and seat plan) 
-
-Assign algorithm assumes that the existing seat bookings don't have spaces in between them in a given row
-
-Database file seat letter are ordered alphabetically - seat row is not important
-
-Priority is given based on the order of bookings in CSV file, regardless of whether this results in empty seats
-
-
-
-Errors/Unforseen Outcomes:
--------------------------------------------------
-Entering 9 as group size resulted in 3 rows of 4 for some reason  -  corrected
-
-Database kept locking  -  corrected
-
-Initial plan was to use array - now modified to work with lists  -  corrected
-
-
-
-
-To Do:
--------------------------------------------------
-Create list based modification  -  done
-
-Create a list of test cases - done
-
-Correct spacing assumption - not done
-
-Create a list of optional additions/parameters  -  choice of metric interpretation added
-
-Annotate all functions that are not obvious - done
+The submitted program runs correctly and has been rigorously tested using a variety of input simulations. The final program version is the result of iterative collaboration and teamwork during the project. This Github repository is a record of the contribution that each member made and the number of modifications that were performed in order to optimise the software. We have been conscious of the need to record assumptions, user documentation and annotate the program to simulate a real world software project. The project brief has been successfully interpreted, a solution has been implemented to meet the defined criteria and the project has been recorded in the submitted PDF report document.
