@@ -15,33 +15,33 @@ Contribution by Team Member:
 -------------------------------------
 Eoin Carroll:   
                 
-                read_database
+- read_database
 				        
-                read_csv
+- read_csv
 				        
-                run_all
+- run_all
 				        
-                Report sections: 1,3,5,8
+- Report sections: 1,3,5,8
 
 Bobby Reardon:  
                 
-                count_list
+- count_list
 				        
-                count_str_list
+- count_str_list
 				        
-                assign_metrics_list
+- assign_metrics_list
 				        
-                run_all
+- run_all
 				        
-                Report sections: 2,4,7,9,editing
+- Report sections: 2,4,7,9,editing
 
 Chris Taylor:   
 
-                SeatsTest
+- SeatsTest
 				        
-                code editing & annotating
+- code editing & annotating
 				        
-                Report sections: 6
+- Report sections: 6
 
 
 Report Conclusion
