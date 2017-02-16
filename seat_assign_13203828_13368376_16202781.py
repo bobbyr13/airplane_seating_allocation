@@ -243,7 +243,7 @@ def assign_metrics_list(db, booking_name, booking_size, sep='Total'):
     del plane
 
 
-def run_all(DB_file = "airline_seating.db",CSV_file = "bookings.csv",sep = 'Separated',first=1,last=0):
+def run_all(DB_file = "airline_seating.db",CSV_file = "bookings.csv",sep = 'Total',first=1,last=0):
     nrows, seat_layout, free_seats = read_database(DB_file)
     booking_number, booking_name, booking_size = read_csv(CSV_file)
     
