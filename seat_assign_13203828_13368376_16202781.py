@@ -90,16 +90,16 @@ def read_csv(csv_file="bookings.csv"):                                 # Read an
 
 # New ASSIGN function which allows the user to specify the separation metric
 # interpretation they would prefer. The metric calculations included are:
-#       Separated (default):  Number of group splits.
+#       Total (default):  If group is split, number of members in group.
+#       Separated:  Number of group splits.
 #       Alone:  Number of party members seated alone.
-#       Total:  If group is split, number of members in group.
 #       Dissatisfaction:  0 if all party members are seated together.
 #                         1 if party members are separated but no individuals
 #                             are sat alone.
 #                         3 if one or more party members are sat alone.
 
 
-def assign_metrics_list(db, booking_name, booking_size, sep='Separations'):
+def assign_metrics_list(db, booking_name, booking_size, sep='Total'):
                                                                     # Connect to database and retrieve plane dimensions
     conn = sqlite3.connect(db)
     c = conn.cursor()
@@ -232,7 +232,7 @@ def assign_metrics_list(db, booking_name, booking_size, sep='Separations'):
             c.execute("UPDATE metrics SET passengers_separated = ?;", (separated + booking_size,))
             conn.commit()
            
-    else:
+    elif sep == 'Separated':
                                                         # Separation metric defined to be the number of group splits.
         separations = len(set(position)) - 1
         c.execute("UPDATE metrics SET passengers_separated = ?;", (separated + separations,))
