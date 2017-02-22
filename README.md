@@ -57,6 +57,8 @@ Chris Taylor:
   ----
 
 # REPORT
+
+#### NOTE:   Submitted PDF file contains full report.
   
   ----
 
