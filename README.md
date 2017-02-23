@@ -270,8 +270,10 @@ Out[1]: 1
 Bobby Reardon
 
 ##### See Also
+`count_str_list`, which is also used within `assign_metrics_list`.
+
+##### Examples
 ```
-count_str_list, which is also used within assign_metrics_list. Examples
 A_list = [‘’]*60
 
 In[1]: count_list(A_list, 4, 2)
@@ -299,12 +301,12 @@ Out[1]: 4
    A string representing the interpretation of the `passengers_separated` metric to be used. This can take the inputs: ‘Separations’ [default], ‘Alone’, ‘Total’ and ‘Dissatisfaction’. See ‘Details’ for more.   
 
 ##### Details
-`assign_metrics_list` first accesses the database file `db`. It retrieves the dimensions of the plane from the `rows_cols` table and creates a list of names for each seat from the `seating` table.   
-A while loop is run to check if any prior bookings have the same name as the one being processed. Until a unique name is generated, the loop adds `‘ (1)’` to the end of the booking name so as to run the assign step correctly.   
-The assigning algorithm operates by trying to fit the largest possible group together in a single row, each time scanning rows from front to back. In the event that no row can accommodate the booking size, the booking is partitioned by separating a single individual and then attempting to assign seats to the slightly smaller booking size. The functions `count_list` and `count_str_list` (see below) are used in this process. The process iterates until it allocates seats to the largest possible subgroup of the original booking. Once completed it repeats the process if necessary for the remaining members of the party. At each step of the process, the seating table of the database file is updated.   
-Assigning step assumes all seats already booked have been done so in a left-to-right manner with no gaps between occupied seats within a given row.    
-A list of the row numbers of each occupied seat is then generated and this is then used in different manners to update the `passengers_separated` metric depending on the choice of interpretation.    
-Interpretations:
+`assign_metrics_list` first accesses the database file `db`. It retrieves the dimensions of the plane from the `rows_cols` table and creates a list of names for each seat from the `seating` table.      
+   A while loop is run to check if any prior bookings have the same name as the one being processed. Until a unique name is generated, the loop adds `‘ (1)’` to the end of the booking name so as to run the assign step correctly.      
+   The assigning algorithm operates by trying to fit the largest possible group together in a single row, each time scanning rows from front to back. In the event that no row can accommodate the booking size, the booking is partitioned by separating a single individual and then attempting to assign seats to the slightly smaller booking size. The functions `count_list` and `count_str_list` (see below) are used in this process. The process iterates until it allocates seats to the largest possible subgroup of the original booking. Once completed it repeats the process if necessary for the remaining members of the party. At each step of the process, the seating table of the database file is updated.      
+   Assigning step assumes all seats already booked have been done so in a left-to-right manner with no gaps between occupied seats within a given row.       
+   A list of the row numbers of each occupied seat is then generated and this is then used in different manners to update the `passengers_separated` metric depending on the choice of interpretation.       
+   Interpretations:
 * ‘Alone’ interprets the metric as the number of passengers seated who are completely separated from all other members of the party.
 * ‘Separated’ interprets the metric as the total number of party splits made when assigning the seats.
 * ‘Total’ interprets the metric as the total people sitting away from any other member of their party, ie. if a group is split, it is equal to the group size.
@@ -360,8 +362,8 @@ assign_metrics_list(‘plane.db’, ‘John Murphy’, 4)
    An integer representing the last number (1 indexed) of the bookings file that the algorithm will run. By default, the algorithm ends with the last row.   
 
 ##### Details
-`run_all` begins by calling both the read_database and read_csv functions in order to extract the relevant information. It then sets the first and last rows of the CSV file to be processed.   
-For each of the k (end - start) bookings to be processed, the function begins by evaluating whether the plane can still accommodate the entire booking size. If it cannot be processed, the passengers_refused metric is updated and the new value is printed to screen. If it can be processed, the `assign_metrics_list` function is called and the seating table and `passengers_separated` metric within the database are subsequently updated.
+`run_all` begins by calling both the read_database and read_csv functions in order to extract the relevant information. It then sets the first and last rows of the CSV file to be processed.      
+   For each of the k (end - start) bookings to be processed, the function begins by evaluating whether the plane can still accommodate the entire booking size. If it cannot be processed, the passengers_refused metric is updated and the new value is printed to screen. If it can be processed, the `assign_metrics_list` function is called and the seating table and `passengers_separated` metric within the database are subsequently updated.
 
 ##### Outputs
 `run_all` returns a printed statement for each booking which was accommodated and assigned along with the size of the booking. If the booking has failed to be assigned, the function prints a message to confirm no more free seats exist and prints the updated `passengers_refused` metric.
@@ -421,7 +423,7 @@ This function utilises the `sqlite3` library to interact with an SQL database. I
 ##### Author
 Eoin Carroll
 
-##### Example
+##### Examples
 ```
 import sqlite3
 
@@ -460,7 +462,7 @@ This function utilises the CSV library to interact with the CSV file. It opens t
 ##### Author
 Eoin Carroll
 
-##### Example
+##### Examples
 ```
 import csv
 
