@@ -22,35 +22,24 @@ We declare that all of the undersigned have contributed to this work and that it
 ## Contribution by Team Member:
 
 
-Eoin Carroll:   
-                
-- read_database
-				        
-- read_csv
-				        
-- run_all
-				        
-- Report sections: 1,3,5,8
+Eoin Carroll:                  
+* read_database			        
+* read_csv				        
+* run_all				        
+* Report sections: 1,3,5,8
 
-Bobby Reardon:  
-                
-- count_list
-				        
-- count_str_list
-				        
-- assign_metrics_list
-				        
-- run_all
-				        
-- Report sections: 2,4,7,9,editing
+Bobby Reardon:       
+* count_list				        
+* count_str_list				        
+* assign_metrics_list			        
+* run_all
+* ReadMe
+* Report sections: 2,4,7,9,editing
 
 Chris Taylor:   
-
-- SeatsTest
-				        
-- code editing & annotating
-				        
-- Report sections: 6
+* SeatsTest			        
+* code editing & annotating			        
+* Report sections: 6
 
 <br><br>
 
@@ -208,3 +197,273 @@ While the program now operates as detailed in the assignment specification, ther
 
 ## 8. CONCLUSION
 The submitted program runs correctly and has been rigorously tested using a variety of input simulations. The final program version is the result of iterative collaboration and teamwork during the project. The Github repository is a record of the contribution that each member made and the number of modifications that were performed in order to optimise the software. We have been conscious of the need to record assumptions, user documentation and annotate the program to simulate a real world software project. The project brief has been successfully interpreted, a solution has been implemented to meet the defined criteria and the project has been recorded in this document. 
+
+<br><br>
+
+## 9. FUNCTION DOCUMENTATION
+   
+<h3 align="center">count_str_list</h3>
+    
+##### Description
+`count_str_list` is used to count the number of entries of a list equal to a given string.
+
+##### Usage
+`count_str_list(A, str)`
+
+##### Arguments
+`A`   
+   A list representing the names assigned to each seat on the plane. This is list is assumed to be in the same format as the original seating table of the database, with entries ordered by seat letter, then by row number (ie, 1A, 2A, ... 15A, 1B, ...).   
+   `str`   
+   String representing the name that is being checked.
+
+##### Details
+`count_str_list` is used within `assign_metrics_list` to count the number of seats assigned to a passenger with the booking name `str`. It again applies the same rectangular plane assumption as the rest of the program.
+
+##### Outputs
+`count_str_list` returns the following outputs:    
+   
+`c`   
+   Integer representing the number of seats on the plane with booking name str.
+
+##### Author(s)
+Bobby Reardon
+
+##### See Also
+`count_str_list`, which is also used within `assign_metrics_list`.
+
+##### Examples
+```
+A_list = [‘’]*60
+A_list[8] = ‘Joe Bloggs’
+
+In[1]: count_str_list(A_list, ‘Joe Bloggs’)
+Out[1]: 1
+```
+<br><br>
+
+<h3 align="center">count_list</h3>
+
+##### Description
+`count_list` is used to count the number of empty (ie. ‘’) seats in a given row of a given plane.
+
+##### Usage
+`count_list(A, rowlen, i)`
+
+##### Arguments
+`A`   
+   A list representing the names assigned to each seat on the plane. This list is assumed to be in the same format as the seating table of the database, with entries ordered by seat letter, then by row number (ie, 1A, 2A, ... 15A, 1B, ...).   
+   `rowlen`   
+   Integer representing the number of seats in each row of the plane.   
+   `i`   
+   An integer representing the row of interest, where 0 represents the first row.   
+
+##### Details
+`count_list` is used within `assign_metrics_list` to count the number of available seats in a given row by counting the number of empty ‘’ entries. It applies the same rectangular plane assumption as the rest of the program.
+
+##### Outputs
+`count_list` returns the following outputs:    
+    
+`c`   
+   Integer representing the number of free/available seats remaining in row i.
+
+##### Author(s)
+Bobby Reardon
+
+##### See Also
+```
+count_str_list, which is also used within assign_metrics_list. Examples
+A_list = [‘’]*60
+
+In[1]: count_list(A_list, 4, 2)
+Out[1]: 4
+```
+
+<br><br>
+
+<h3 align="center">assign_metrics_list</h3>
+
+##### Description
+`assign_metrics_list` is used to allocate seats, that are currently unoccupied on the plane, to a booking of given size and name.
+
+##### Usage
+`assign_metrics_list(db, booking_name, booking_size, sep = ‘Separations')`
+
+##### Arguments
+`db`   
+   A string representing the database file name where the details of the plane are stored, along with the current values of the metrics.   
+   `booking_name`   
+   A string representing the name used for the booking which will be use to designate the seats once the assigning is completed.   
+   `booking_size`   
+   An integer representing the size of the party to which seats will be assigned.   
+   `sep`   
+   A string representing the interpretation of the `passengers_separated` metric to be used. This can take the inputs: ‘Separations’ [default], ‘Alone’, ‘Total’ and ‘Dissatisfaction’. See ‘Details’ for more.   
+
+##### Details
+`assign_metrics_list` first accesses the database file `db`. It retrieves the dimensions of the plane from the `rows_cols` table and creates a list of names for each seat from the `seating` table.   
+A while loop is run to check if any prior bookings have the same name as the one being processed. Until a unique name is generated, the loop adds `‘ (1)’` to the end of the booking name so as to run the assign step correctly.   
+The assigning algorithm operates by trying to fit the largest possible group together in a single row, each time scanning rows from front to back. In the event that no row can accommodate the booking size, the booking is partitioned by separating a single individual and then attempting to assign seats to the slightly smaller booking size. The functions `count_list` and `count_str_list` (see below) are used in this process. The process iterates until it allocates seats to the largest possible subgroup of the original booking. Once completed it repeats the process if necessary for the remaining members of the party. At each step of the process, the seating table of the database file is updated.   
+Assigning step assumes all seats already booked have been done so in a left-to-right manner with no gaps between occupied seats within a given row.    
+A list of the row numbers of each occupied seat is then generated and this is then used in different manners to update the `passengers_separated` metric depending on the choice of interpretation.    
+Interpretations:
+* ‘Alone’ interprets the metric as the number of passengers seated who are completely separated from all other members of the party.
+* ‘Separated’ interprets the metric as the total number of party splits made when assigning the seats.
+* ‘Total’ interprets the metric as the total people sitting away from any other member of their party, ie. if a group is split, it is equal to the group size.
+* ’Dissatisfaction’ interprets the metric by assigning dissatisfaction weightings to each booking which are defined as:
+  * 0 if all party members are seated together.
+  * 1 if party members are separated but no individuals are sat alone
+  * 3 if one or more party members are sat alone.   
+  
+##### Outputs
+`assign_metrics_list` returns a printed statement `‘Booking Confirmed’` once the database file has been updated correctly   
+
+##### Author(s)
+Bobby Reardon
+
+##### See Also
+`count_list` and `count_str_list` functions used in `assign_metrics_list`.
+
+##### Examples
+```
+import sqlite3
+import csv
+
+DB_file = “airline_seating.db"
+booking_name = “Joe Bloggs”
+booking_size = 6
+
+assign_metrics_list(DB_file, booking_name, booking_size, ‘Alone’)
+
+# Using default value of sep:
+assign_metrics_list(‘plane.db’, ‘John Murphy’, 4)
+```
+
+<br><br>
+
+<h3 align="center">run_all</h3>
+
+##### Description
+`run_all` is used to run the entire program while allowing the user to specify an interpretation of the separations metric as well as providing the user control over which entries in the bookings file are run.
+
+##### Usage
+`run_all(DB_file = ‘airline_seating.db’, CSV_file = ‘bookings.csv’, sep = ‘Separated', first=1, last=0)`
+
+##### Arguments
+`DB_file`      
+   A string representing the database file name where the details of the plane are stored, along with the current values of the metrics. By default it will load the database file `airline_seating.db` as per the sample file.   
+   `CSV_file`   
+   A string representing the bookings CSV file name where the ordered list of bookings are stored, wit both booking names and corresponding sizes recorded. By default it will load the CSV file `bookings.csv` as per the sample file.   
+   `sep`   
+   A string representing the interpretation of the passengers_separated metric to be used. This can take the inputs: ‘Separations’ [default], ‘Alone’, ‘Total’ and ‘Dissatisfaction’. See ‘Details’ for more.   
+   `first`   
+   An integer representing the row number (1 indexed) of the bookings file for the algorithm to start at. By default, the algorithm begins with the first row.   
+   `last`   
+   An integer representing the last number (1 indexed) of the bookings file that the algorithm will run. By default, the algorithm ends with the last row.   
+
+##### Details
+`run_all` begins by calling both the read_database and read_csv functions in order to extract the relevant information. It then sets the first and last rows of the CSV file to be processed.   
+For each of the k (end - start) bookings to be processed, the function begins by evaluating whether the plane can still accommodate the entire booking size. If it cannot be processed, the passengers_refused metric is updated and the new value is printed to screen. If it can be processed, the `assign_metrics_list` function is called and the seating table and `passengers_separated` metric within the database are subsequently updated.
+
+##### Outputs
+`run_all` returns a printed statement for each booking which was accommodated and assigned along with the size of the booking. If the booking has failed to be assigned, the function prints a message to confirm no more free seats exist and prints the updated `passengers_refused` metric.
+
+##### Author(s)
+Bobby Reardon, Eoin Carroll
+
+##### See Also
+`run_all` comprises of three constituent functions, namely `read_database`, `read_csv` and `assign_metrics_list`. See these for more details.
+
+##### Examples
+```
+import sqlite3
+import csv
+
+DB_file = “airline_seating.db"
+CSV_file = “bookings.csv”
+
+# Run entire bookings list with default metric interpretation:
+run_all(DB_file, CSV_file)
+
+# Or alternatively
+run_all()
+
+# Run first 10 entires using ‘Alone’ interpretation:
+run_all(DB_file, CSV_file, ‘Alone’, 1, 10)
+```
+
+<br><br>
+
+<h3 align="center">read_database</h3>
+
+##### Description
+`read_database` is a function that reads the seat layout from a database file to record the layout of the plane. It also checks to see how many free seats are available.
+
+##### Usage
+`read_database(db_file = "airline_seating.db")`
+
+##### Arguments
+`db_file`      
+   The input argument represents the filename of the database to be used. It defaults to `airline_seating.db` for the purpose of this assignment.
+
+##### Details
+This function utilises the `sqlite3` library to interact with an SQL database. It opens the specified file and returns specific values from different tables in the database. It also iterates through the seat table and calculates the number of free seats.      
+   We assume that the database is set up correctly as per the sample database provided for this assignment.
+
+##### Outputs
+`read_database` returns the following outputs:   
+   
+   `number_of_rows`   
+   Represents the number of rows on the plane taken from the database.      
+   `seat_layout`   
+   Represents the seating format in the form of seat letters per row.      
+   `free_seats`   
+   Represents the number of unoccupied seats in the database.      
+
+##### Author
+Eoin Carroll
+
+##### Example
+```
+import sqlite3
+
+DB_file = "airline_seating.db"
+nrows, seat_layout, free_seats = read_database(DB_file)
+```
+
+<br><br>
+
+<h3 align="center">read_csv</h3>
+
+##### Description
+`read_csv` is a function that reads the list of passengers that wish to be booked onto the plane from a CSV file.
+
+##### Usage
+`read_csv(csv_file = "bookings.csv")`
+
+##### Arguments
+`csv_file`      
+   The input argument represents the filename of the CVS file to be used. It defaults to `bookings.csv` for the purpose of this assignment.
+
+##### Details
+This function utilises the CSV library to interact with the CSV file. It opens the specified file and reads the name and number for each passenger booking.      
+   We assume that the CSV file is set up correctly as per the sample file provided for this assignment. The assumed format contains the passenger names in column 1 and the passenger group sizes in column 2.
+
+##### Outputs
+`read_csv` returns the following outputs:   
+
+   `booking_number`   
+   Represents the number of unique booking requests   
+   `booking_name`   
+   Represents the name of each booking. List format.   
+   `booking_size`   
+   Represents the size of each booking. List format.   
+
+##### Author
+Eoin Carroll
+
+##### Example
+```
+import csv
+
+CSV_file = "bookings.csv"
+booking_number, booking_name, booking_size = read_csv(CSV_file)
+```
