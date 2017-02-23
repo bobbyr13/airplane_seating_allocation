@@ -1,9 +1,8 @@
-# ARI Programming - Report
+# ARI Programming Assignment
 
 #### MIS40750 - Analytics Research & Implementation
   
-  ----
-  
+  ---- 
 
 ## Contributors:
   
@@ -12,15 +11,12 @@
 | Eoin Carroll    | 16202781      | 
 | Bobby Reardon   | 13203828      |
 | Chris Taylor    | 13368376      |
-
   
 ## Statement of Authorship
 
 We declare that all of the undersigned have contributed to this work and that it is all our own work as understood by UCD policies on Academic Integrity and Plagiarism, unless otherwise cited.
   
-  
 ## Contribution by Team Member:
-
 
 Eoin Carroll:                  
 * read_database			        
